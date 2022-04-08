@@ -8,6 +8,11 @@
 
 #pragma once
 
+#define and and_
+#define or or_
+#define xor xor_
+#define not not_
+
 // Copyright (c) 2009-2011, Hikaru Inoue, Akihiro Yamasaki,
 // All rights reserved.
 //
@@ -17116,10 +17121,10 @@ namespace jitasm {
 #ifdef JITASM64
                 Arg(Frontend &f, const ArgInfo &arg_info): addr_(Reg()) {
                     if (arg_info.reg_id != INVALID) {
-                        f.DeclareRegArg(Reg(addr_.reg_), Reg(arg_info.reg_id), f.ptr[arg_info.addr]);
+                        f.DeclareRegArg(reinterpret_cast<Reg>(addr_.reg_), reinterpret_cast<Reg>(arg_info.reg_id), f.ptr[arg_info.addr]);
                     }
                     else {
-                        f.DeclareStackArg(Reg(addr_.reg_), f.ptr[arg_info.addr]);
+                        f.DeclareStackArg(reinterpret_cast<Reg>(addr_.reg_), reinterpret_cast<Reg>(f.ptr[arg_info.addr]));
                     }
                 }
 #else
@@ -17935,3 +17940,8 @@ namespace jitasm {
 #endif
 
 #endif // #ifndef JITASM_H
+
+#undef and
+#undef or
+#undef xor
+#undef not
